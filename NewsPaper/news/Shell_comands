@@ -1,0 +1,55 @@
+user1 = User.objects.create_user(username = "Иван")
+user2 = User.objects.create_user(username = "Петр")
+
+auther1 = Author.objects.create(user = user1)
+auther2 = Author.objects.create(user = user2)
+
+category1 = Category.objects.create(title="Медецина")
+category2 = Category.objects.create(title="Дом")
+category3 = Category.objects.create(title="Сад")
+category4 = Category.objects.create(title="Компьютеры")
+
+post_nw = Post.objects.create(text='text',rulobject='NW',header='text',auther=auther1)
+post_ar1 = Post.objects.create(text='text',rulobject='AR',header='text',auther=auther2)
+post_ar2 = Post.objects.create(text='text',rulobject='AR',header='text',auther=auther2)
+
+cat_post_nw1 = PostCategory(category=category1,post=post_nw)
+cat_post_nw1.save()
+cat_post_nw2 = PostCategory(category=category2,post=post_nw)
+cat_post_nw2.save()
+
+cat_post_ar1_1 = PostCategory(category=category1,post=post_ar1)
+cat_post_ar1_1.save()
+cat_post_ar1_2 = PostCategory(category=category2,post=post_ar1)
+cat_post_ar1_2.save()
+
+cat_post_ar2_1 = PostCategory(category=category1,post=post_ar2)
+cat_post_ar2_1.save()
+cat_post_ar2_2 = PostCategory(category=category2,post=post_ar2)
+cat_post_ar2_2.save()
+
+coment_1 = Coment.objects.create(user=user1,textcoment='text',post=post_nw,comentratio=0)
+coment_2 = Coment.objects.create(user=user1,textcoment='text1',post=post_ar1,comentratio=0)
+coment_3 = Coment.objects.create(user=user1,textcoment='text2',post=post_ar1,comentratio=0)
+coment_4 = Coment.objects.create(user=user1,textcoment='text3',post=post_ar2,comentratio=0)
+
+post_nw.likeRatio()
+post_nw.likeRatio()
+post_ar1.likeRatio()
+post_ar1.dislikeRatio()
+
+auther1.update_rating()
+auther2.update_rating()
+
+userRatingMax = Author.objects.order_by('-ratio').first()
+
+maxLikePost = Post.objects.order_by('_postratio').first()
+autherMaxLikeName = maxLikePost.auther
+
+for name in  autherMaxLikeName._meta._get_fields():
+    print (getattr(autherMaxLikeName,name,None))
+
+maxLikePost.previw()
+maxLikePost.header
+autherMaxLikeName.User.date_joined
+allcoments = Coment.objects.filter(post=maxLikePost)
