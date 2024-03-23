@@ -2,14 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
-
 articale = 'AR'
 news = 'NW'
 POSITIONS = [
     (articale,'статья'),
     (news,'новость')
 ]
+
 # Create your models here.
 class Author(models.Model):
     ratio    = models.IntegerField(default=0)
@@ -62,7 +61,8 @@ class Post (models.Model):
 
     def previw(self):
         return self.text[:50] + '...'
-
+    def __str__(self):
+        return f'({self.header.title()} : {self.rulobject})'
 
 class Coment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -89,7 +89,6 @@ class Coment(models.Model):
 class PostCategory(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
-
 
 
 
