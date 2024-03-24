@@ -1,0 +1,36 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+New
+{% endblock title %}
+
+{% block content %}
+ <hr>
+       <table bgcolor="#a3ffe5" align="center" width="100%"   >
+           <tr >
+               <td ><strong>Заголовок</strong></td>
+               <td><strong>Дата публикации</strong></td>
+               <td><strong>Текст</strong></td>
+               <td><strong>Статья \ Новость </strong></td>
+               <td><strong>Категория </strong></td>
+               <td><strong>Рейтинг </strong></td>
+           </tr>
+
+           <!-- Для каждого товара будете генерироваться новая строчка,
+           т.е. новый HTML код, который указан в теле цикла.
+           При этом сам цикл работает точно так же, как и в Python.
+           product — переменная цикла, т.е. наш товар полученный из списка -->
+
+           <tr>
+               <td>{{ new.header }}</td>
+               <td>{{ new.date }}</td>
+               <td>{{ new.text|censor}}</td>
+               <td>{{ new.rulobject }}</td>
+               <td>{{ new.postratio}}</td>
+           </tr>
+
+
+       </table>
+         <hr>
+{% endblock content %}
