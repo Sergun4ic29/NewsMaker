@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 articale = 'AR'
@@ -29,10 +30,13 @@ class Author(models.Model):
             raitios_posts += r._comentratio
         self.ratio = posts_ratio *3 + coments_ratio + raitios_posts
         self.save()
+    def __str__(self):
+        return self.user.username
 
 class Category(models.Model):
     title = models.CharField(max_length=50,unique=True)
-
+    def __str__(self):
+        return self.title
 
 class Post (models.Model):
     auther = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -63,6 +67,8 @@ class Post (models.Model):
         return self.text[:50] + '...'
     def __str__(self):
         return f'({self.header.title()} : {self.rulobject})'
+    def get_absolute_url(self):
+        return reverse('post_detail',args=[str(self.id)])
 
 class Coment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)

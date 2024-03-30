@@ -10,10 +10,7 @@ News
 {% endblock title %}
 {% block content %}
  <h1>Все новости</h1>
-    <form action="" method="get">
-     {{ filterset.form.as_p }}
-    <input type="submit" value="Найти">
-    </form>
+
   <h3>{% current_time '%b %d %Y'%}</h3>
    <hr>
    {% if news %}
@@ -31,7 +28,7 @@ News
            <!--p> --!|sort_by:"-date"</p-->
            {% for new in news %}
            <tr>
-               <td><a href = {% url 'post' new.pk %}> {{ new.header }}</a></td>
+               <td><a > {{ new.header }}</a></td>
                <td>{{ new.date|date:'d M Y' }}</td>
                <td>{{ new.text|truncatechars:20 }}</td>
            </tr>
@@ -39,11 +36,17 @@ News
 
        </table>
          <hr>
+        <form action="" method="get">
+     {{ filterset.form.as_p }}
+
+    <input type="submit" value="Найти">
+    </form>
+          <hr>
    {% else %}
        <h2>Новостей нет!</h2>
    {% endif %}
     {% if page_obj.has_previous %}
-        <a href="?page=1">1</a>>
+        <a href="?{{ page_obj.next_page_number }}">1</a>
         {% if page_obj.previous_page_number != 1 %}
             <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
         {% endif %}
