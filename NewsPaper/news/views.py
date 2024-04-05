@@ -7,6 +7,9 @@ from django.shortcuts import render
 from .forms import  PostForm
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class PostList(ListView):
@@ -71,12 +74,14 @@ class PostCreate(CreateView):
 
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(UpdateView,LoginRequiredMixin):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+
     def form_valid(self, form):
-        if f'nw/{self.pk}/create/' in self.request.path:
+        if f'nw/{self.pk}/update/' in self.request.path:
             post = form.save(commit=False)
             post.rulobject = 'NW'
         else:
