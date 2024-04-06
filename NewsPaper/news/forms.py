@@ -10,7 +10,7 @@ from django import forms
 
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
-from .models import BaseRegistrForm
+#from .models import BaseRegistrForm
 
 #class BaseRegisterView(CreateView):
     #model = User

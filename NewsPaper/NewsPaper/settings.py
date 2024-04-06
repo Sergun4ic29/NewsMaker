@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'allauth.socialaccount.providers.google',
 
 
 
@@ -69,7 +70,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'NewsPaper.urls'
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/news'
+LOGIN_REDIRECT_URL = 'registerd'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False

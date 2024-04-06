@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django import forms
+
 
 
 articale = 'AR'
@@ -101,16 +101,5 @@ class PostCategory(models.Model):
 
 
 
-class BaseRegistrForm(UserCreationForm):
-    name = forms.CharField(label='Имя')
-    email = forms.EmailField(label='email')
-    class Meta:
-        model = User
-        fields =(
-           'username',
-           'email',
-            'password1',
-            'password2',
-        )
 
 
