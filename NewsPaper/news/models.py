@@ -38,8 +38,13 @@ class Author(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=50,unique=True)
+    subscribers = models.ManyToManyField(User)
     def __str__(self):
         return self.title
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['subscribers'].initial = 'default_user'
 
 class Post (models.Model):
     auther = models.ForeignKey(Author, on_delete=models.CASCADE)

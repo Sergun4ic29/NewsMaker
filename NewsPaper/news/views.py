@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Post
+from .models import Post,Category
 from datetime import datetime
 from .filters import PostFilter
 from django.shortcuts import render
@@ -17,6 +17,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -136,3 +137,12 @@ def upgrade_me(request):
     if not request.user.groups.filter(name='authors').exists():
         author_group.user_set.add(user)
     return redirect('/')
+
+def subsribe_me(request):
+    user = request.user
+    page_catygory = request.GET('postcategory')
+    #subscribers_catygory = Category.subscribers.filter(name=page_catygory).all()
+    if page_catygory != None:
+        catygory_objects = Category.objects.get(name=page_catygory)
+        catygory_objects.subscribers.add(user)
+
