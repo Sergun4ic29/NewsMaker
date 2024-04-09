@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Post,Category
+from .models import Post,Category,PostCategory
 from datetime import datetime
 from .filters import PostFilter
 from django.shortcuts import render
@@ -20,6 +20,13 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import send_mail
 
 # Create your views here.
+class DetailCategory(LoginRequiredMixin,DetailView):
+    model = Category
+    template_name = 'category.html'
+    context_object_name = 'category'
+
+
+
 
 
 class PostList(LoginRequiredMixin,ListView):
@@ -27,12 +34,17 @@ class PostList(LoginRequiredMixin,ListView):
     ordering = 'date'
     template_name = 'flatpages/news.html'
     context_object_name = 'news'
-    paginate_by = 1
+    paginate_by = 10
+
+    def my_category(self):
+        self_category = PostCategory.objects.filter(post=self.model.pk)
+        return self_category
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['time_now'] = datetime.utcnow()
         context['filterset'] = self.filterset
+        context['my_category'] = self.my_category()
         return context
 
     def get_queryset(self):
@@ -138,11 +150,9 @@ def upgrade_me(request):
         author_group.user_set.add(user)
     return redirect('/')
 
-def subsribe_me(request):
+def subsribe_me(request,pk):
     user = request.user
-    page_catygory = request.GET('postcategory')
-    #subscribers_catygory = Category.subscribers.filter(name=page_catygory).all()
-    if page_catygory != None:
-        catygory_objects = Category.objects.get(name=page_catygory)
-        catygory_objects.subscribers.add(user)
+    catygory = Category.objects.get(pk=pk)
+    catygory.subscribers.add(user)
+    return redirect('/news')
 

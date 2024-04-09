@@ -3641,7 +3641,55 @@ textarea.form-control-lg {
   pointer-events: none;
   cursor: default;
 }
-
+.form_button {
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  background: #4676D7;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+.btn {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 25px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #0dcaf0;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: #0dcaf0;
+	background-color: #0c63e4;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+}
+.btn:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.btn:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.btn:active {
+	background-color: #0dcaf0;
+}
+.btn:disabled {
+	background-color: #0dcaf0;
+	border-color: #0dcaf0;
+	color: #0dcaf0;
+	cursor: not-allowed;
+}
 .nav-tabs {
   --bs-nav-tabs-border-width: 1px;
   --bs-nav-tabs-border-color: #dee2e6;
@@ -10791,6 +10839,7 @@ textarea.form-control-lg {
     font-size: 1.5rem !important;
   }
 }
+
 @media print {
   .d-print-inline {
     display: inline !important;
@@ -10823,8 +10872,4 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.form_button{
-	font-family: sans-serif;
-	letter-spacing: 1px;
-	font-size: 39px;
-}
+

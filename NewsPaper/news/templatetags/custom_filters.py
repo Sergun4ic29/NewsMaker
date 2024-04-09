@@ -1,5 +1,6 @@
 from django import template
 import re
+from news.models import Category,PostCategory
 
 register = template.Library()
 
@@ -18,6 +19,10 @@ def censor(value):
         value = re.sub(word[1:], replace, value)
     return value
 
+@register.filter()
+def curent_category(new):
+    my_category = PostCategory.post.objects.get(pk=new.pk)
+    return my_category
 
 
 

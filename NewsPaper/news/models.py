@@ -44,7 +44,7 @@ class Category(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['subscribers'].initial = 'default_user'
+        self.subscribers.initial = 'default_user'
 
 class Post (models.Model):
     auther = models.ForeignKey(Author, on_delete=models.CASCADE)

@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+New
+{% endblock title %}
+
+{% block content %}
+ <hr>
+       <table bgcolor="#a3ffe5" align="center" width="100%"   >
+
+           <tr>
+               <td>{{ category.title }}</td>
+
+           </tr>
+
+
+       </table>
+         <hr>
+
+{% endblock content %}

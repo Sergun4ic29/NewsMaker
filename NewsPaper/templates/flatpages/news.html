@@ -31,6 +31,7 @@ News
                <td><a > {{ new.header }}</a></td>
                <td>{{ new.date|date:'d M Y' }}</td>
                <td>{{ new.text|truncatechars:20 }}</td>
+                <td>{{ my_category}}</td>
            </tr>
            {% endfor %}
 
