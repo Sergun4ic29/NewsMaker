@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from news.apps import EMAIL_PASS
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -158,3 +159,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'zarin29'
+EMAIL_HOST_PASSWORD = EMAIL_PASS
+EMAIL_USE_SSL = True

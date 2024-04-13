@@ -18,12 +18,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 # Create your views here.
 class DetailCategory(LoginRequiredMixin,DetailView):
     model = Category
     template_name = 'category.html'
     context_object_name = 'category'
+
 
 
 
@@ -36,15 +39,12 @@ class PostList(LoginRequiredMixin,ListView):
     context_object_name = 'news'
     paginate_by = 10
 
-    def my_category(self):
-        self_category = PostCategory.objects.filter(post=self.model.pk)
-        return self_category
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['time_now'] = datetime.utcnow()
         context['filterset'] = self.filterset
-        context['my_category'] = self.my_category()
         return context
 
     def get_queryset(self):
@@ -56,6 +56,7 @@ class DetailPost(LoginRequiredMixin,DetailView):
     model = Post
     template_name = 'flatpages/new.html'
     context_object_name = 'new'
+
 
 def create_post(request,form):
     form = PostForm()
@@ -94,8 +95,30 @@ class PostCreate(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
             post.rulobject = 'AR'
 
         return super().form_valid(form)
-
-
+    def post(self,request,*args,**kwargs):
+        m_post = Post(
+            auther=request.POST['auther'],
+            header=request.POST['header'],
+            text=request.POST['text'],
+        )
+        m_post.save()
+        catygory = Category.objects.get(pk=self.pk)
+        m_subscribers = catygory.subscribers.all()
+        html_content = render_to_string(
+            'send_category.html',
+            {
+                'post': m_post,
+            }
+        )
+        msg = EmailMultiAlternatives(
+            subject= f'{m_post.header}',
+            body= m_post.text[0:50],
+            from_email= 'zarin29@yandex.ru',
+            to = m_subscribers
+        )
+        msg.attach_alternative(html_content,'text/html')
+        msg.send()
+        return redirect('m_posts: send_category')
 
 
 class PostUpdate(LoginRequiredMixin,PermissionRequiredMixin,UpdateView):

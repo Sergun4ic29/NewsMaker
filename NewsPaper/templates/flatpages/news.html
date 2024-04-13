@@ -9,6 +9,8 @@
 News
 {% endblock title %}
 {% block content %}
+    <button> <a  href="nw/create/"> Добавить новость</a> </button>
+<button> <a  href="ar/create/"> Добавить статью</a> </button>
  <h1>Все новости</h1>
 
   <h3>{% current_time '%b %d %Y'%}</h3>
@@ -19,6 +21,7 @@ News
                <td > <strong>Заголовок</strong></td>
                <td><strong>Дата публикации</strong></td>
                <td><strong>Текст</strong></td>
+               <td><strong>Категория</strong></td>
            </tr>
 
            <!-- Для каждого товара будете генерироваться новая строчка,
@@ -31,7 +34,10 @@ News
                <td><a > {{ new.header }}</a></td>
                <td>{{ new.date|date:'d M Y' }}</td>
                <td>{{ new.text|truncatechars:20 }}</td>
-                <td>{{ my_category}}</td>
+                <td>{% for catygory in new.catygorys.all %}
+                       <a href="/news/category/{{catygory.id}}/"> {{catygory}} </a>
+                    {% endfor %}
+                </td>
            </tr>
            {% endfor %}
 
@@ -41,6 +47,7 @@ News
      {{ filterset.form.as_p }}
 
     <input type="submit" value="Найти">
+
     </form>
           <hr>
    {% else %}
