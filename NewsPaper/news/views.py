@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Post,Category,PostCategory
+from .models import Post,Category,PostCategory,Author
 from datetime import datetime
 from .filters import PostFilter
 from django.shortcuts import render
@@ -85,7 +85,7 @@ class PostCreate(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     template_name = 'post_edit.html'
     permission_required = ('news.add_post',
                            'news.change_post',)
-
+#
     def form_valid(self, form):
         if 'nw/create/' in self.request.path:
             post = form.save(commit=False)
@@ -93,16 +93,17 @@ class PostCreate(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         else:
             post = form.save(commit=False)
             post.rulobject = 'AR'
-
         return super().form_valid(form)
     def post(self,request,*args,**kwargs):
         m_post = Post(
-            auther=request.POST['auther'],
+            auther=Author.objects.get(pk = int(request.POST['auther'])),
+            #auther = request.POST,
             header=request.POST['header'],
             text=request.POST['text'],
         )
         m_post.save()
-        catygory = Category.objects.get(pk=self.pk)
+        PostCategory.objects.create(category_id=int(request.POST['catygorys']),post_id=m_post.pk)
+        catygory = Category.objects.get(pk = int(request.POST['catygorys']))
         m_subscribers = catygory.subscribers.all()
         html_content = render_to_string(
             'send_category.html',
@@ -113,12 +114,13 @@ class PostCreate(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
         msg = EmailMultiAlternatives(
             subject= f'{m_post.header}',
             body= m_post.text[0:50],
-            from_email= 'zarin29@yandex.ru',
+            from_email= 'Sergun4ic29-1@yandex.ru',
             to = m_subscribers
         )
         msg.attach_alternative(html_content,'text/html')
         msg.send()
-        return redirect('m_posts: send_category')
+        return redirect('news')
+
 
 
 class PostUpdate(LoginRequiredMixin,PermissionRequiredMixin,UpdateView):

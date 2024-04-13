@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-from news.apps import EMAIL_PASS
+from dotenv import load_dotenv,find_dotenv
+load_dotenv(find_dotenv())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -161,6 +162,6 @@ STATICFILES_DIRS = [
 ]
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'zarin29'
-EMAIL_HOST_PASSWORD = EMAIL_PASS
+EMAIL_HOST_USER = 'Sergun4ic29-1'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 EMAIL_USE_SSL = True
