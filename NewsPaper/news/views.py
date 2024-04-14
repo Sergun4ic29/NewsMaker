@@ -20,8 +20,13 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.db.models.signals import post_save
 
 # Create your views here.
+
+
+
+
 class DetailCategory(LoginRequiredMixin,DetailView):
     model = Category
     template_name = 'category.html'
